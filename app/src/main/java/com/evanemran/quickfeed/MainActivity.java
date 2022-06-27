@@ -20,6 +20,7 @@ import com.evanemran.quickfeed.fragments.PostFragment;
 import com.evanemran.quickfeed.fragments.ProfileFragment;
 import com.evanemran.quickfeed.fragments.SearchFragment;
 import com.evanemran.quickfeed.listeners.ClickListener;
+import com.evanemran.quickfeed.listeners.PostListener;
 import com.evanemran.quickfeed.models.PostData;
 import com.evanemran.quickfeed.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -138,13 +139,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private final ClickListener<PostData> postDataClickListener = new ClickListener<PostData>() {
+    private final PostListener postDataClickListener = new PostListener() {
         @Override
-        public void onClicked(PostData data) {
+        public void onPostClicked(PostData data, Uri imageUri) {
             SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
             Date date = new Date();
             data.setPosTTime(format.format(date));
-
+            if (imageUri!=null){
+                uploadImage(imageUri);
+            }
             data.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
             postsReference = firebaseDatabase.getReference("posts");
             postsReference.child(postsReference.push().getKey()).setValue(data);
@@ -191,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(
                                         UploadTask.TaskSnapshot taskSnapshot) {
+
+//                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                                     // Image uploaded successfully
                                     // Dismiss dialog

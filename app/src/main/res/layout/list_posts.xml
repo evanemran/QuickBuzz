@@ -69,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
+            <ImageButton
+                android:src="@drawable/ic_like"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -78,8 +79,10 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textAllCaps="false"
-                android:layout_margin="4dp"/>
-            <Button
+                android:layout_margin="4dp"
+                app:tint="@color/blue" />
+            <ImageButton
+                android:src="@drawable/ic_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -88,8 +91,10 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textAllCaps="false"
-                android:layout_margin="4dp"/>
-            <Button
+                android:layout_margin="4dp"
+                app:tint="#E07C24" />
+            <ImageButton
+                android:src="@drawable/ic_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -78,6 +78,12 @@
         android:layout_height="wrap_content"
         android:text="Follow"
         android:textAllCaps="false"/>
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log-out"
+        android:textAllCaps="false"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_home"
         android:layout_margin="4dp"
