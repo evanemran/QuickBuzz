@@ -51,8 +51,7 @@
         android:background="@color/blue"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:itemRippleColor="#69CD9E"
-        app:labelVisibilityMode="unlabeled"
+        app:itemRippleColor="#12B0E8"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

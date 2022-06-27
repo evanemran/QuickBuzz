@@ -70,10 +70,16 @@ public class PostDialog extends DialogFragment implements ClickListener<PostData
         button_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PostData postData = new PostData();
-                postData.setPostBody(editText_post.getText().toString());
-                listener.onClicked(postData);
-                dismiss();
+                String post = editText_post.getText().toString();
+                if (post.isEmpty()){
+                    editText_post.setError("Write something.");
+                }
+                else{
+                    PostData postData = new PostData();
+                    postData.setPostBody(post);
+                    listener.onClicked(postData);
+                    dismiss();
+                }
             }
         });
     }
