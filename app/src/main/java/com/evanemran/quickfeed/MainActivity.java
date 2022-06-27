@@ -20,6 +20,7 @@ import com.evanemran.quickfeed.fragments.ProfileFragment;
 import com.evanemran.quickfeed.fragments.SearchFragment;
 import com.evanemran.quickfeed.listeners.ClickListener;
 import com.evanemran.quickfeed.models.PostData;
+import com.evanemran.quickfeed.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,11 +31,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference, postsReference;
     TextView textView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
+        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (!uID.isEmpty()){
+            getUserData(uID);
+        }
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -118,10 +127,28 @@ public class MainActivity extends AppCompatActivity {
     private final ClickListener<PostData> postDataClickListener = new ClickListener<PostData>() {
         @Override
         public void onClicked(PostData data) {
+            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+            Date date = new Date();
+            data.setPosTTime(format.format(date));
+
             data.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
             postsReference = firebaseDatabase.getReference("posts");
             postsReference.child(postsReference.push().getKey()).setValue(data);
             Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
         }
     };
+
+    private void getUserData(String uID) {
+        databaseReference.child("userId").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

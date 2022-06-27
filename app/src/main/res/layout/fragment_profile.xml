@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imageView_profile"
+            android:src="@drawable/profile_placeholder"
+            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="30dip"
+            app:riv_border_width="2dip"
+            app:riv_border_color="@color/blue"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textView_postCount"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100 Posts"/>
+            <TextView
+                android:id="@+id/textView_followersCount"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100 Followers"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView_fullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Full Name"
+        android:textStyle="bold"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:padding="8dp"/>
+    <TextView
+        android:id="@+id/textView_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bio"
+        android:maxLines="4"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:padding="8dp"/>
+    <Button
+        android:id="@+id/button_editProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:textAllCaps="false"/>
+    <Button
+        android:id="@+id/button_follow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Follow"
+        android:textAllCaps="false"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_home"
+        android:layout_margin="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

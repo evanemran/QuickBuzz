@@ -8,19 +8,40 @@
     android:layout_margin="8dp">
 
     <LinearLayout
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/textView_poster"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Posted by"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textAlignment="textStart"
-            android:padding="8dp"/>
+            android:layout_height="wrap_content">
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imageView_user"
+                android:src="@drawable/profile_placeholder"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:scaleType="fitCenter"
+                app:riv_corner_radius="30dip"
+                app:riv_border_width="2dip"
+                app:riv_border_color="@color/blue"
+                app:riv_mutate_background="true"
+                app:riv_tile_mode="repeat"
+                app:riv_oval="true" />
+            <TextView
+                android:id="@+id/textView_poster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Posted by"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:padding="8dp"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/textView_postTime"
             android:layout_width="match_parent"
@@ -55,7 +76,7 @@
                 android:text="Like"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textAllCaps="false"
                 android:layout_margin="4dp"/>
             <Button
@@ -65,7 +86,7 @@
                 android:text="Comment"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textAllCaps="false"
                 android:layout_margin="4dp"/>
             <Button
@@ -75,7 +96,7 @@
                 android:text="Share"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textAllCaps="false"
                 android:layout_margin="4dp"/>
 
