@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference, postsReference;
     TextView textView;
     User user;
+    PostData newPost;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -142,16 +145,19 @@ public class MainActivity extends AppCompatActivity {
     private final PostListener postDataClickListener = new PostListener() {
         @Override
         public void onPostClicked(PostData data, Uri imageUri) {
+            newPost = data;
             SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
             Date date = new Date();
-            data.setPosTTime(format.format(date));
+            newPost.setPosTTime(format.format(date));
             if (imageUri!=null){
                 uploadImage(imageUri);
             }
-            data.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-            postsReference = firebaseDatabase.getReference("posts");
-            postsReference.child(postsReference.push().getKey()).setValue(data);
-            Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+            else{
+                newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                postsReference = firebaseDatabase.getReference("posts");
+                postsReference.child(postsReference.push().getKey()).setValue(newPost);
+                Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -183,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     = storageReference
                     .child(
                             "images/"
-                                    + UUID.randomUUID().toString());
+                                    + System.currentTimeMillis()+"."+getFileExtension(filePath));
 
             // adding listeners on upload
             // or failure of image
@@ -195,16 +201,23 @@ public class MainActivity extends AppCompatActivity {
                                 public void onSuccess(
                                         UploadTask.TaskSnapshot taskSnapshot) {
 
-//                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            newPost.setImage(uri.toString());
+                                            newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                            postsReference = firebaseDatabase.getReference("posts");
+                                            postsReference.child(postsReference.push().getKey()).setValue(newPost);
+                                            Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+                                            progressDialog.dismiss();
+                                            Toast.makeText(MainActivity.this,
+                                                    "Image Uploaded!!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
                                     // Image uploaded successfully
                                     // Dismiss dialog
-                                    progressDialog.dismiss();
-                                    Toast
-                                            .makeText(MainActivity.this,
-                                                    "Image Uploaded!!",
-                                                    Toast.LENGTH_SHORT)
-                                            .show();
                                 }
                             })
 
@@ -239,5 +252,11 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
         }
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 }

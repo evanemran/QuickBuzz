@@ -8,11 +8,20 @@ public class PostData {
     String postBody = "";
     String posTTime = "";
     boolean hasImage = false;
+    boolean isLiked = false;
     String image = "";
     int likes = 0;
     List<CommentData> comments;
 
     public PostData() {
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 
     public String getPostId() {
