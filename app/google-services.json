@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "59503302585",
+    "firebase_url": "https://quickfeed-da67b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "quickfeed-da67b",
+    "storage_bucket": "quickfeed-da67b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59503302585:android:c1cd0569dd440ee3064868",
+        "android_client_info": {
+          "package_name": "com.evanemran.quickfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59503302585-0n2mqeodp73m81qs9gn9etsqbdbr14pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALn6bT5-h6KDfHSOu4Gq-_Go4eYALyp5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59503302585-0n2mqeodp73m81qs9gn9etsqbdbr14pm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
