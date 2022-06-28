@@ -1,9 +1,11 @@
 package com.evanemran.quickfeed.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,8 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.evanemran.quickfeed.R;
 import com.evanemran.quickfeed.adapters.PostsAdapter;
+import com.evanemran.quickfeed.dialogs.CommentDialog;
+import com.evanemran.quickfeed.dialogs.PostDialog;
+import com.evanemran.quickfeed.listeners.CommentListener;
+import com.evanemran.quickfeed.listeners.PostListener;
 import com.evanemran.quickfeed.listeners.PostReactionListener;
+import com.evanemran.quickfeed.models.CommentData;
 import com.evanemran.quickfeed.models.PostData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -74,7 +84,19 @@ public class HomeFragment extends Fragment {
     private final PostReactionListener<PostData> reactionListener = new PostReactionListener<PostData>() {
         @Override
         public void onLikeClicked(PostData data) {
-
+            HashMap post = new HashMap();
+            post.put("likes", data.getLikes()+1);
+            databaseReference.child(data.getPostId()).updateChildren(post).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(getContext(), "Liked!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Couldn't update!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         @Override
@@ -84,7 +106,43 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onCommentClicked(PostData data) {
+            CommentDialog commentDialog = new CommentDialog(data, commentListener);
+            commentDialog.show(getChildFragmentManager(), "comment");
+        }
+    };
 
+    private final PostListener commentListener = new PostListener() {
+        @Override
+        public void onPostClicked(PostData data, Uri imageUri) {
+            HashMap post = new HashMap();
+            post.put("commentsCount", data.getCommentsCount()+1);
+            databaseReference.child(data.getPostId()).updateChildren(post).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(getContext(), "Commented!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Couldn't comment!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+
+            HashMap comment = new HashMap();
+            comment.put("comments", data.getComments());
+            databaseReference.child(data.getPostId()).updateChildren(comment).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(getContext(), "Commented!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "Couldn't comment!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     };
 }

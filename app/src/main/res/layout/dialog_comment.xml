@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@color/white">
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_comments"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/commentBox_container"
+        tools:listitem="@layout/list_comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/commentBox_container"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="8dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/editText_comment"
+                android:hint="Type your comment..."
+                android:layout_width="0dp"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/button_comment"
+                android:src="@drawable/ic_send"
+                android:background="@android:color/transparent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

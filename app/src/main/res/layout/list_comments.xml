@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="8dp"
+    android:layout_margin="8dp"
+    android:padding="8dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imageView_user"
+            android:src="@drawable/profile_placeholder"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="30dip"
+            app:riv_border_width="2dip"
+            app:riv_border_color="@color/blue"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textView_poster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Commented by"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/blue"
+                android:textAlignment="textStart"
+                android:paddingStart="8dp"/>
+            <TextView
+                android:id="@+id/textView_postBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This is a comment body"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:padding="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
@@ -41,9 +44,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
+
+import id.zelory.compressor.Compressor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -155,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
             else{
                 newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                 postsReference = firebaseDatabase.getReference("posts");
-                postsReference.child(postsReference.push().getKey()).setValue(newPost);
+                String key = postsReference.push().getKey();
+                newPost.setPostId(key);
+                postsReference.child(key).setValue(newPost);
                 Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -193,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
             // adding listeners on upload
             // or failure of image
-            ref.putFile(filePath)
+            ref.putFile(compressImage(filePath))
                     .addOnSuccessListener(
                             new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
@@ -207,7 +216,9 @@ public class MainActivity extends AppCompatActivity {
                                             newPost.setImage(uri.toString());
                                             newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                             postsReference = firebaseDatabase.getReference("posts");
-                                            postsReference.child(postsReference.push().getKey()).setValue(newPost);
+                                            String key = postsReference.push().getKey();
+                                            newPost.setPostId(key);
+                                            postsReference.child(key).setValue(newPost);
                                             Toast.makeText(MainActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
                                             progressDialog.dismiss();
                                             Toast.makeText(MainActivity.this,
@@ -258,5 +269,26 @@ public class MainActivity extends AppCompatActivity {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private Uri compressImage(Uri uri){
+        Uri compressedUri = null;
+        try {
+            int quality = 70;
+            int width = 720;
+//            int height = Integer.valueOf(txtHeight.getText().toString());
+            File compressed = new Compressor(MainActivity.this)
+                    .setMaxWidth(width)
+                    .setQuality(quality)
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                    .compressToFile(new File(uri.getPath()));
+
+            compressedUri = Uri.fromFile(compressed);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            compressedUri = uri;
+        }
+        return compressedUri;
     }
 }

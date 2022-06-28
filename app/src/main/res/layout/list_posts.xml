@@ -40,7 +40,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textAlignment="textStart"
-                android:padding="8dp"/>
+                android:paddingStart="8dp"/>
         </LinearLayout>
         <TextView
             android:id="@+id/textView_postTime"
@@ -96,6 +96,7 @@
                     android:layout_margin="4dp"
                     app:tint="@color/blue" />
                 <TextView
+                    android:id="@+id/textView_likeCount"
                     android:text="Likes"
                     android:textSize="12sp"
                     android:textColor="@color/black"
@@ -123,6 +124,7 @@
                     android:layout_margin="4dp"
                     app:tint="#E07C24" />
                 <TextView
+                    android:id="@+id/textView_commentCount"
                     android:text="Comments"
                     android:textSize="12sp"
                     android:textColor="@color/black"
@@ -149,6 +151,7 @@
                     android:textAllCaps="false"
                     android:layout_margin="4dp"/>
                 <TextView
+                    android:id="@+id/textView_shareCount"
                     android:text="Shares"
                     android:textSize="12sp"
                     android:textColor="@color/black"

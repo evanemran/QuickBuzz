@@ -1,5 +1,6 @@
 package com.evanemran.quickfeed.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostData {
@@ -11,9 +12,27 @@ public class PostData {
     boolean isLiked = false;
     String image = "";
     int likes = 0;
-    List<CommentData> comments;
+    int commentsCount = 0;
+    int shareCount = 0;
+    List<CommentData> comments = new ArrayList<>();
 
     public PostData() {
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public int getShareCount() {
+        return shareCount;
+    }
+
+    public void setShareCount(int shareCount) {
+        this.shareCount = shareCount;
     }
 
     public boolean isLiked() {

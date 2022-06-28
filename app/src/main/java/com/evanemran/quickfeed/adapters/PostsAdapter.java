@@ -46,12 +46,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
         holder.textView_postBody.setText(data.getPostBody());
         holder.textView_postTime.setText(getFormattedTime(data.getPosTTime()));
 
+        holder.textView_likeCount.setText(data.getLikes() + "\nLikes");
+        holder.textView_commentCount.setText(data.getCommentsCount() + "\nComments");
+        holder.textView_shareCount.setText(data.getShareCount() + "\nShares");
+
         if (data.getImage().isEmpty() || data.getImage()==null){
             holder.imageView_post.setVisibility(View.GONE);
         }
         else{
             holder.imageView_post.setVisibility(View.VISIBLE);
-            Picasso.get().load(data.getImage()).into(holder.imageView_post);
+            Picasso.get().load(data.getImage()).placeholder(R.drawable.image_placeholder).into(holder.imageView_post);
         }
 
         holder.button_like.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +114,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
 }
 class PostsViewHolder extends RecyclerView.ViewHolder {
     TextView textView_poster, textView_postBody, textView_postTime;
+    TextView textView_shareCount, textView_commentCount, textView_likeCount;
     ImageView imageView_post, button_share, button_comment, button_like;
 
     public PostsViewHolder(@NonNull View itemView) {
@@ -122,5 +127,8 @@ class PostsViewHolder extends RecyclerView.ViewHolder {
         button_share = itemView.findViewById(R.id.button_share);
         button_comment = itemView.findViewById(R.id.button_comment);
         button_like = itemView.findViewById(R.id.button_like);
+        textView_likeCount = itemView.findViewById(R.id.textView_likeCount);
+        textView_commentCount = itemView.findViewById(R.id.textView_commentCount);
+        textView_shareCount = itemView.findViewById(R.id.textView_shareCount);
     }
 }
