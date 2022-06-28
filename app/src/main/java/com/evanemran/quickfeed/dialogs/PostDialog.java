@@ -22,20 +22,23 @@ import androidx.fragment.app.DialogFragment;
 
 import com.evanemran.quickfeed.R;
 import com.evanemran.quickfeed.listeners.ClickListener;
+import com.evanemran.quickfeed.listeners.PostListener;
 import com.evanemran.quickfeed.models.PostData;
 
 import java.io.IOException;
 
-public class PostDialog extends DialogFragment implements ClickListener<PostData> {
+public class PostDialog extends DialogFragment {
 
-    private ClickListener<PostData> listener;
+    private PostListener listener;
     EditText editText_post;
     Button button_post;
     ImageButton button_image_upload;
     ImageView imageView_selected;
     Uri filePath;
+    PostData postData = new PostData();
 
-    public PostDialog(ClickListener<PostData> listener) {
+
+    public PostDialog(PostListener listener) {
         this.listener = listener;
     }
 
@@ -75,9 +78,8 @@ public class PostDialog extends DialogFragment implements ClickListener<PostData
                     editText_post.setError("Write something.");
                 }
                 else{
-                    PostData postData = new PostData();
                     postData.setPostBody(post);
-                    listener.onClicked(postData);
+                    listener.onPostClicked(postData, filePath);
                     dismiss();
                 }
             }
@@ -147,10 +149,4 @@ public class PostDialog extends DialogFragment implements ClickListener<PostData
         }
     }
 
-
-    @Override
-    public void onClicked(PostData data) {
-        listener.onClicked(data);
-        dismiss();
-    }
 }
