@@ -31,10 +31,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+
     View view;
     RecyclerView recycler_home;
     DatabaseReference databaseReference;
@@ -49,14 +51,6 @@ public class HomeFragment extends Fragment {
 
         recycler_home = view.findViewById(R.id.recycler_home);
 
-
-
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,6 +60,8 @@ public class HomeFragment extends Fragment {
                     PostData post = postSnapshot.getValue(PostData.class);
                     postDataList.add(post);
                 }
+
+                Collections.reverse(postDataList);
 
                 recycler_home.setHasFixedSize(true);
                 recycler_home.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -79,6 +75,15 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     private final PostReactionListener<PostData> reactionListener = new PostReactionListener<PostData>() {

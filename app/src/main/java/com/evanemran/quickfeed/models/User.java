@@ -7,6 +7,7 @@ public class User {
     String userMail;
     String userPhone;
     String userPhoto;
+    String userBio;
 
     public User(String userId, String userName, String userFullName, String userMail, String userPhone, String userPhoto) {
         this.userId = userId;
@@ -15,6 +16,17 @@ public class User {
         this.userMail = userMail;
         this.userPhone = userPhone;
         this.userPhoto = userPhoto;
+    }
+
+    public User() {
+    }
+
+    public String getUserBio() {
+        return userBio;
+    }
+
+    public void setUserBio(String userBio) {
+        this.userBio = userBio;
     }
 
     public String getUserMail() {

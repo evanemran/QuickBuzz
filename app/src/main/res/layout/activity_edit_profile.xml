@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditProfileActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_home"
+        android:layout_alignParentTop="true"
+        app:title="Edit Profile"
+        app:titleTextColor="@color/white"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/editImageContainer"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_alignParentTop="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imageView_profile"
+                android:src="@drawable/profile_placeholder"
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="30dip"
+                app:riv_border_width="2dip"
+                app:riv_border_color="@color/blue"
+                app:riv_mutate_background="true"
+                app:riv_tile_mode="clamp"
+                app:riv_oval="true" />
+            <TextView
+                android:id="@+id/textView_postCount"
+                android:layout_below="@+id/imageView_profile"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Edit"/>
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/editText_name"
+            android:hint="Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editText_bio"
+            android:hint="Bio"
+            android:layout_marginTop="16dp"
+            android:lines="4"
+            android:gravity="top|start"
+            android:minLines="1"
+            android:maxLines="4"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+</LinearLayout>

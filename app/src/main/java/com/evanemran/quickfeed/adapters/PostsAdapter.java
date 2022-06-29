@@ -16,16 +16,20 @@ import com.evanemran.quickfeed.listeners.PostReactionListener;
 import com.evanemran.quickfeed.models.PostData;
 import com.squareup.picasso.Picasso;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
 
     Context context;
     List<PostData> list;
     PostReactionListener<PostData> listener;
+    PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
 
     public PostsAdapter(Context context, List<PostData> list, PostReactionListener<PostData> listener) {
         this.context = context;
@@ -44,7 +48,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
         final PostData data = list.get(position);
         holder.textView_poster.setText(data.getPostedBy());
         holder.textView_postBody.setText(data.getPostBody());
-        holder.textView_postTime.setText(getFormattedTime(data.getPosTTime()));
+//        holder.textView_postTime.setText(getFormattedTime(data.getPosTTime()));
+        holder.textView_postTime.setText(prettyTime.format(getDateFromStr(data.getPosTTime())));
 
         holder.textView_likeCount.setText(data.getLikes() + "\nLikes");
         holder.textView_commentCount.setText(data.getCommentsCount() + "\nComments");
@@ -84,6 +89,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
                 listener.onShareClicked(data);
             }
         });
+    }
+
+    private Date getDateFromStr(String posTTime) {
+        try {
+            Date postDate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a").parse(posTTime);
+            return postDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getFormattedTime(String posTTime) {
