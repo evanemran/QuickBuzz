@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,9 +52,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
 //        holder.textView_postTime.setText(getFormattedTime(data.getPosTTime()));
         holder.textView_postTime.setText(prettyTime.format(getDateFromStr(data.getPosTTime())));
 
-        holder.textView_likeCount.setText(data.getLikes() + "\nLikes");
-        holder.textView_commentCount.setText(data.getCommentsCount() + "\nComments");
-        holder.textView_shareCount.setText(data.getShareCount() + "\nShares");
+        holder.textView_likeCount.setText(data.getLikes()+""/* + "\nLikes"*/);
+        holder.textView_commentCount.setText(data.getCommentsCount()+""/* + "\nComments"*/);
+        holder.textView_shareCount.setText(data.getShareCount()+""/* + "\nShares"*/);
 
         if (data.getImage().isEmpty() || data.getImage()==null){
             holder.imageView_post.setVisibility(View.GONE);
@@ -67,14 +68,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
             @Override
             public void onClick(View view) {
                 listener.onLikeClicked(data);
-                if (data.isLiked()){
+                /*if (data.isLiked()){
                     data.setLiked(false);
                     holder.button_like.setImageResource(R.drawable.ic_like_fill);
                 }
                 else{
                     data.setLiked(true);
                     holder.button_like.setImageResource(R.drawable.ic_like);
-                }
+                }*/
             }
         });
         holder.button_comment.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +131,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
 class PostsViewHolder extends RecyclerView.ViewHolder {
     TextView textView_poster, textView_postBody, textView_postTime;
     TextView textView_shareCount, textView_commentCount, textView_likeCount;
-    ImageView imageView_post, button_share, button_comment, button_like;
+    ImageView imageView_post;
+    LinearLayout button_share, button_comment, button_like;
 
     public PostsViewHolder(@NonNull View itemView) {
         super(itemView);

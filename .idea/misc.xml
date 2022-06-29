@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/QuickFeed/app/src/main/res/layout/activity_edit_profile.xml" value="0.18478260869565216" />
+        <entry key="..\:/Android_Projects/QuickBuzz/app/src/main/res/layout/dialog_comment.xml" value="0.30416666666666664" />
+        <entry key="..\:/Android_Projects/QuickBuzz/app/src/main/res/layout/dialog_post.xml" value="0.24722222222222223" />
+        <entry key="..\:/Android_Projects/QuickBuzz/app/src/main/res/layout/list_posts.xml" value="0.24722222222222223" />
         <entry key="..\:/QuickFeed/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/QuickFeed/app/src/main/res/layout/activity_main.xml" value="0.16893115942028986" />
         <entry key="..\:/QuickFeed/app/src/main/res/layout/activity_signup.xml" value="0.16893115942028986" />
