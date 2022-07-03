@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
+
         String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (!uID.isEmpty()){
             getUserData(uID);
