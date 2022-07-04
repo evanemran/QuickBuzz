@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_alignParentTop="true"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imageView_story"
+            android:src="@drawable/profile_placeholder"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:layout_margin="8dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="30dip"
+            app:riv_border_width="2dip"
+            app:riv_border_color="@color/blue"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="clamp"
+            app:riv_oval="true" />
+        <ImageView
+            android:visibility="visible"
+            android:src="@drawable/ic_add_story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/blue" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/textView_story_name"
+        android:layout_below="@+id/imageView_story"
+        android:text="Add Story"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
