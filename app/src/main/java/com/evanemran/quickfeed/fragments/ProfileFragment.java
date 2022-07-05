@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.evanemran.quickfeed.LoginActivity;
 import com.evanemran.quickfeed.R;
 import com.evanemran.quickfeed.adapters.PostsAdapter;
 import com.evanemran.quickfeed.dialogs.CommentDialog;
+import com.evanemran.quickfeed.globals.GlobalUser;
 import com.evanemran.quickfeed.listeners.PostListener;
 import com.evanemran.quickfeed.listeners.PostReactionListener;
 import com.evanemran.quickfeed.models.PostData;
@@ -33,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +45,7 @@ public class ProfileFragment extends Fragment {
     View view;
     Button button_logout, button_editProfile;
     TextView textView_fullName, textView_postCount;
+    ImageView imageView_profile;
     RecyclerView recycler_profile;
     List<PostData> postDataList = new ArrayList<>();
     DatabaseReference databaseReference;
@@ -57,10 +61,13 @@ public class ProfileFragment extends Fragment {
         recycler_profile = view.findViewById(R.id.recycler_profile);
         textView_fullName = view.findViewById(R.id.textView_fullName);
         textView_postCount = view.findViewById(R.id.textView_postCount);
+        imageView_profile = view.findViewById(R.id.imageView_profile);
 
         textView_fullName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
         databaseReference = FirebaseDatabase.getInstance().getReference("posts");
+
+        Picasso.get().load(GlobalUser.getInstance().getData().getUserPhoto()).into(imageView_profile);
 
 
         button_logout.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +96,7 @@ public class ProfileFragment extends Fragment {
         super.onStart();
         dbQuery = databaseReference
                 .orderByChild("postedBy")
-                .equalTo(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                .equalTo(GlobalUser.getInstance().getData().getUserId());
         dbQuery.addListenerForSingleValueEvent(
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override

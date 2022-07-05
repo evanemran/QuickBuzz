@@ -24,6 +24,7 @@ import com.evanemran.quickfeed.fragments.NotificationsFragment;
 import com.evanemran.quickfeed.fragments.PostFragment;
 import com.evanemran.quickfeed.fragments.ProfileFragment;
 import com.evanemran.quickfeed.fragments.SearchFragment;
+import com.evanemran.quickfeed.globals.GlobalUser;
 import com.evanemran.quickfeed.listeners.ClickListener;
 import com.evanemran.quickfeed.listeners.PostListener;
 import com.evanemran.quickfeed.models.PostData;
@@ -43,6 +44,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 uploadImage(imageUri);
             }
             else{
-                newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                newPost.setPostedBy(user);
                 postsReference = firebaseDatabase.getReference("posts");
                 String key = postsReference.push().getKey();
                 newPost.setPostId(key);
@@ -172,17 +174,29 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void getUserData(String uID) {
-        databaseReference.child("userId").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.getValue(User.class);
-            }
+        Query dbQuery = databaseReference
+                .orderByChild("userId")
+                .equalTo(uID);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        dbQuery.addListenerForSingleValueEvent(
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                        {
+                            user = postSnapshot.getValue(User.class);
+                            GlobalUser.getInstance().setData(user);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                })
+        );
     }
 
     private void uploadImage(Uri filePath) {
@@ -215,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             newPost.setImage(uri.toString());
-                                            newPost.setPostedBy(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                            newPost.setPostedBy(user);
                                             postsReference = firebaseDatabase.getReference("posts");
                                             String key = postsReference.push().getKey();
                                             newPost.setPostId(key);

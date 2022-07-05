@@ -28,6 +28,7 @@ import com.evanemran.quickfeed.listeners.StoryClickListener;
 import com.evanemran.quickfeed.models.CommentData;
 import com.evanemran.quickfeed.models.PostData;
 import com.evanemran.quickfeed.models.StoryData;
+import com.evanemran.quickfeed.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -45,9 +46,10 @@ public class HomeFragment extends Fragment {
 
     View view;
     RecyclerView recycler_home, recycler_story;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, userReference;
     List<PostData> postDataList = new ArrayList<>();
     List<StoryData> storyDataList = new ArrayList<>();
+    List<User> userList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -90,6 +92,24 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        userReference = FirebaseDatabase.getInstance().getReference("users");
+//        userReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                userList.clear();
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
+//                {
+//                    User user = postSnapshot.getValue(User.class);
+//                    userList.add(user);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     private void showStories() {

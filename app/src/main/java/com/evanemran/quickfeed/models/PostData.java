@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PostData {
     String postId = "";
-    String postedBy = "";
+    User postedBy = new User();
     String postBody = "";
     String posTTime = "";
     boolean hasImage = false;
@@ -14,9 +14,18 @@ public class PostData {
     int likes = 0;
     int commentsCount = 0;
     int shareCount = 0;
+    String posterAvatar = "";
     List<CommentData> comments = new ArrayList<>();
 
     public PostData() {
+    }
+
+    public String getPosterAvatar() {
+        return posterAvatar;
+    }
+
+    public void setPosterAvatar(String posterAvatar) {
+        this.posterAvatar = posterAvatar;
     }
 
     public int getCommentsCount() {
@@ -43,20 +52,20 @@ public class PostData {
         isLiked = liked;
     }
 
+    public User getPostedBy() {
+        return postedBy;
+    }
+
+    public void setPostedBy(User postedBy) {
+        this.postedBy = postedBy;
+    }
+
     public String getPostId() {
         return postId;
     }
 
     public void setPostId(String postId) {
         this.postId = postId;
-    }
-
-    public String getPostedBy() {
-        return postedBy;
-    }
-
-    public void setPostedBy(String postedBy) {
-        this.postedBy = postedBy;
     }
 
     public String getPostBody() {

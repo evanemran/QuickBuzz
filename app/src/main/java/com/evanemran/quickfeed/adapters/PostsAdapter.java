@@ -15,6 +15,14 @@ import com.evanemran.quickfeed.R;
 import com.evanemran.quickfeed.listeners.ClickListener;
 import com.evanemran.quickfeed.listeners.PostReactionListener;
 import com.evanemran.quickfeed.models.PostData;
+import com.evanemran.quickfeed.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -31,6 +39,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
     List<PostData> list;
     PostReactionListener<PostData> listener;
     PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
+    DatabaseReference databaseReference;
 
     public PostsAdapter(Context context, List<PostData> list, PostReactionListener<PostData> listener) {
         this.context = context;
@@ -47,7 +56,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull PostsViewHolder holder, int position) {
         final PostData data = list.get(position);
-        holder.textView_poster.setText(data.getPostedBy());
+
+        try{
+            getProfilePic(holder.imageView_user, data.getPostedBy().getUserId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        holder.textView_poster.setText(data.getPostedBy().getUserFullName());
         holder.textView_postBody.setText(data.getPostBody());
 //        holder.textView_postTime.setText(getFormattedTime(data.getPosTTime()));
         holder.textView_postTime.setText(prettyTime.format(getDateFromStr(data.getPosTTime())));
@@ -123,6 +139,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
         return time;
     }
 
+    private void getProfilePic(ImageView imageView, String uId){
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        Query dbQuery = databaseReference
+                .orderByChild("userId")
+                .equalTo(uId);
+
+        dbQuery.addListenerForSingleValueEvent(
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                        {
+                            String image = postSnapshot.child("userPhoto").getValue().toString();
+                            if (!image.isEmpty()){
+                                Picasso.get().load(image).into(imageView);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                })
+        );
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -131,7 +176,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsViewHolder>{
 class PostsViewHolder extends RecyclerView.ViewHolder {
     TextView textView_poster, textView_postBody, textView_postTime;
     TextView textView_shareCount, textView_commentCount, textView_likeCount;
-    ImageView imageView_post;
+    ImageView imageView_post, imageView_user;
     LinearLayout button_share, button_comment, button_like;
 
     public PostsViewHolder(@NonNull View itemView) {
@@ -147,5 +192,6 @@ class PostsViewHolder extends RecyclerView.ViewHolder {
         textView_likeCount = itemView.findViewById(R.id.textView_likeCount);
         textView_commentCount = itemView.findViewById(R.id.textView_commentCount);
         textView_shareCount = itemView.findViewById(R.id.textView_shareCount);
+        imageView_user = itemView.findViewById(R.id.imageView_user);
     }
 }
